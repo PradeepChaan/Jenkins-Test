@@ -1,18 +1,22 @@
----
-- hosts: webservers 
-  become: True
+hosts: webservers
+  become: yes
   tasks:
-    - name: Install packages
-      yum:
-        name: "httpd"
-        state: "present"
-    - name: Start Apache server
-      service:
-        name: httpd
-        state: started
-        enabled: True
-    - name: Deploy static website
-      copy:
-        src: index.html
-        dest: /var/www/html/
-...
+          - name: updating repos
+            yum:
+                    name: "*"
+                    state: latest
+          - name: Install Tomcat
+            yum:
+                    name: tomcat-webapps.noarch
+          - name: Start Tomcat
+            service:
+                    name: tomcat
+                    state: started
+          - name: deploy war file
+            copy:
+                    src: sample.war
+                    dest: /usr/share/tomcat/webapps
+          - name: ReStart Tomcat
+            service:
+                    name: tomcat
+                    state: restarted
