@@ -1,4 +1,5 @@
-hosts: webservers
+---
+- hosts: webservers
   become: yes
   tasks:
           - name: updating repos
@@ -20,3 +21,4 @@ hosts: webservers
             service:
                     name: tomcat
                     state: restarted
+...
